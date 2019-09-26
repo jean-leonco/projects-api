@@ -26,26 +26,20 @@ class TaskController {
    * @param {Response} ctx.response
    */
   async store ({ request, response, params }) {
-    try {
-      const data = request.only([
-        'user_id',
-        'title',
-        'description',
-        'due_date',
-        'file_id'
-      ])
+    const data = request.only([
+      'user_id',
+      'title',
+      'description',
+      'due_date',
+      'file_id'
+    ])
 
-      const task = await Task.create({
-        ...data,
-        project_id: params.projects_id
-      })
+    const task = await Task.create({
+      ...data,
+      project_id: params.projects_id
+    })
 
-      return task
-    } catch (error) {
-      return response.status(error.status).send({
-        error: { message: 'Something went wrong, could not save task' }
-      })
-    }
+    return task
   }
 
   /**
