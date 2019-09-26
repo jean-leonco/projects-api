@@ -10,12 +10,15 @@ const Task = use('App/Models/Task')
 class TaskController {
   /**
    * @param {object} ctx
+   * @param {Request} ctx.request
    */
-  async index ({ params }) {
+  async index ({ params, request }) {
+    const { page } = request.get()
+
     const tasks = await Task.query()
       .where('project_id', params.projects_id)
       .with('user')
-      .fetch()
+      .paginate(page)
 
     return tasks
   }
